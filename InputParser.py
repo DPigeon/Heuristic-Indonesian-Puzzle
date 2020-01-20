@@ -8,7 +8,7 @@ class InputParser:
 	def __init__(self, filePath): # Initialize
 		with open(filePath) as file:
 			for line in file:
-				number = line.split()
+				number = line.split() # Becoming strings. We have to convert to integer
 				# Storing into separate lists
 				self.size.append(number[0])
 				self.maxDepthSearch.append(number[1])

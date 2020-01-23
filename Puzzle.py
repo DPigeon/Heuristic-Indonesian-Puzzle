@@ -8,10 +8,11 @@ def main():
     # 2. It will analyse with the DFS, BFS & A*
     # 3. It will output 6 files .txt
 
-    input = InputParser.InputParser(inputPath)
-    size = int(input.GetSizes()[0])
-    valueOfBoard1 = int(input.GetValues()[0])
-
-    Board.Board(size, valueOfBoard1)
+    inputParser = InputParser.InputParser(inputPath)
+    size = inputParser.GetSizes()
+    for i in range(len(size)):
+        size = int(inputParser.GetSizes()[i])
+        valueOfBoard1 = int(inputParser.GetValues()[i])
+        Board.Board(size, valueOfBoard1) # Print every board
 
 main()

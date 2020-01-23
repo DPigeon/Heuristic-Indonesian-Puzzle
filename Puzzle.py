@@ -22,4 +22,8 @@ def main():
     
     PrintAll(size, max_d, max_l, values)
 
+    input("Run All Algorithms By Pressing Enter ")
+    
+    # Call algorithms here
+
 main()

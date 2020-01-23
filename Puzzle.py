@@ -10,10 +10,6 @@ def PrintAll(size, max_d, max_l, values):
         Board.Board(int(size[i]), int(values[i])) # Print every board
 
 def main():
-    # 1. Program will take an input file .txt
-    # 2. It will analyse with the DFS, BFS & A*
-    # 3. It will output 6 files .txt
-
     # Initializing
     inputParser = InputParser.InputParser(inputPath)
 

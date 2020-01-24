@@ -3,15 +3,27 @@ import Board
 
 inputPath = "input/input.txt"
 
+def PrintAll(size, max_d, max_l, values):
+    for i in range(len(size)):
+        print()
+        print("Puzzle #" + str(i) + " with max_d = " + str(max_d[i]) + " and max_l = " + str(max_l[i]) + ":")
+        Board.Board(int(size[i]), int(values[i])) # Print every board
+        print()
+
 def main():
-    # 1. Program will take an input file .txt
-    # 2. It will analyse with the DFS, BFS & A*
-    # 3. It will output 6 files .txt
+    # Initializing
+    inputParser = InputParser.InputParser(inputPath)
 
-    input = InputParser.InputParser(inputPath)
-    size = int(input.GetSizes()[0])
-    valueOfBoard1 = int(input.GetValues()[0])
+    # Lists of all boards from the inputPath by column #
+    size = inputParser.GetSizes()
+    values = inputParser.GetValues()
+    max_d = inputParser.GetMaxDepth()
+    max_l = inputParser.GetMaxSearchPath()
+    
+    PrintAll(size, max_d, max_l, values)
 
-    Board.Board(size, valueOfBoard1)
+    input("Run All Algorithms By Pressing Enter ")
+    
+    # Call algorithms here
 
 main()

@@ -3,7 +3,7 @@ import numpy as np
 # Used to display the boards from the input
 
 class Board:
-    board = [] # The board list
+    board = [] # The initial board list
     
     def __init__(self, n, values):  # Initialize
         self.ConstructBoard(n, values)
@@ -21,4 +21,21 @@ class Board:
                 print(self.board[i][j], end = "|")
             print()
 
-
+    def GeneratePossibleMoves(self, n): # Generates all surrounding tiles of the possible touched tile
+        # Inverse all possible move and store it in array of n^2. Then return it
+        moveList = []
+        for i in range(n):
+            for j in range(n):
+                leftX = i-1
+                rightX = i+1
+                upY = j-1
+                downY = j+1
+                if (leftX >= 0 or rightX < n) and (upY >= 0 or downY < n): # play with the conditions
+                    if self.board[i][j] == 1:
+                        self.board[i][j] = 0
+                        moveList.append(self.board)
+                    else:
+                        self.board[i][j] = 1
+                        moveList.append(self.board)
+        print(moveList)
+        return moveList

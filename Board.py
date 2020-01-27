@@ -33,24 +33,24 @@ class Board:
         return movesList
 
     def ChangeSurroundings(self, board, i, j, tile, n):
-        newBoard = board.copy()
-        newBoard[i][j] = tile
-        if i-1 >= 0:
+        newBoard = board.copy() # Copy the list
+        newBoard[i][j] = tile # Change the current tile touched
+        if i-1 >= 0: # left
             if newBoard[i-1][j] == 1:
                 newBoard[i-1][j] = 0
             else:
                 newBoard[i-1][j] = 1
-        if i+1 < n:
+        if i+1 < n: # right
             if newBoard[i+1][j] == 1:
                 newBoard[i+1][j] = 0
             else:
                 newBoard[i+1][j] = 1
-        if j-1 >= 0:
+        if j-1 >= 0: # up
             if newBoard[i][j-1] == 1:
                 newBoard[i][j-1] = 0
             else:
                 newBoard[i][j-1] = 1
-        if j+1 < n:
+        if j+1 < n: # down
             if newBoard[i][j+1] == 1:
                 newBoard[i][j+1] = 0
             else:

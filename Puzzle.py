@@ -4,16 +4,17 @@ import Board
 inputPath = "input/input.txt"
 
 def PrintAllAndInitialize(size, max_d, max_l, values): # To show all boards to search through
+    board = []
     for i in range(len(size)):
         print()
         print("Puzzle #" + str(i) + " with max_d = " + str(max_d[i]) + " and max_l = " + str(max_l[i]) + ":")
-        board = Board.Board(int(size[i]), values[i]) # Print every board
+        board.append(Board.Board(int(size[i]), values[i])) # Print every board
         print()
-        return board
+    return board
 
 def SearchThroughInputs(size, board):
     for i in range(len(size)):
-         movesList = board.GeneratePossibleMoves(int(size[i]))
+         movesList = board[i].GeneratePossibleMoves(int(size[i])) # We get n^2 possible moves every step
          print(movesList)
 
 def main():
@@ -26,7 +27,7 @@ def main():
     max_d = inputParser.GetMaxDepth()
     max_l = inputParser.GetMaxSearchPath()
 
-    board = PrintAllAndInitialize(size, max_d, max_l, values)
+    board = PrintAllAndInitialize(size, max_d, max_l, values) # Get a list of all the boards to search
 
     input("Run All Algorithms By Pressing Enter ")
     

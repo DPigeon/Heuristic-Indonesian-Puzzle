@@ -13,9 +13,10 @@ def PrintAllAndInitialize(size, max_d, max_l, values): # To show all boards to s
     return board
 
 def SearchThroughInputs(size, board):
+    movesList = []
     for i in range(len(size)):
-         movesList = board[i].GeneratePossibleMoves(int(size[i])) # We get n^2 possible moves every step
-         print(movesList)
+         movesList.append(board[i].GeneratePossibleMoves(int(size[i]))) # We get n^2 possible move every step
+    return movesList
 
 def main():
     # Initializing
@@ -32,6 +33,7 @@ def main():
     input("Run All Algorithms By Pressing Enter ")
     
     # Call algorithms here (take all boards in the input order)
-    SearchThroughInputs(size, board)
+    possibleMoves = SearchThroughInputs(size, board) # Get a list of all possible moves
+    print(possibleMoves[0])
 
 main()

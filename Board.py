@@ -27,7 +27,7 @@ class Board:
         for i in range(n):
             for j in range(n):
                 if self.board[i][j] == 1:
-                    movesList.append(self.ChangeSurroundings(self.board, i, j, 0, n))
+                    movesList.append(self.ChangeSurroundings(self.board, i, j, 0, n)) # Add all moves to an array
                 else:
                     movesList.append(self.ChangeSurroundings(self.board, i, j, 1, n))
         return movesList
@@ -35,6 +35,7 @@ class Board:
     def ChangeSurroundings(self, board, i, j, tile, n):
         newBoard = board.copy() # Copy the list
         newBoard[i][j] = tile # Change the current tile touched
+
         if i-1 >= 0: # left
             if newBoard[i-1][j] == 1:
                 newBoard[i-1][j] = 0

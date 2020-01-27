@@ -14,6 +14,7 @@ def PrintAllAndInitialize(size, max_d, max_l, values): # To show all boards to s
 def SearchThroughInputs(size, board):
     for i in range(len(size)):
          movesList = board.GeneratePossibleMoves(int(size[i]))
+         print(movesList)
 
 def main():
     # Initializing

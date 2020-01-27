@@ -23,19 +23,36 @@ class Board:
 
     def GeneratePossibleMoves(self, n): # Generates all surrounding tiles of the possible touched tile
         # Inverse all possible move and store it in array of n^2. Then return it
-        moveList = []
+        movesList = []
         for i in range(n):
             for j in range(n):
-                leftX = i-1
-                rightX = i+1
-                upY = j-1
-                downY = j+1
-                if (leftX >= 0 or rightX < n) and (upY >= 0 or downY < n): # play with the conditions
-                    if self.board[i][j] == 1:
-                        self.board[i][j] = 0
-                        moveList.append(self.board)
-                    else:
-                        self.board[i][j] = 1
-                        moveList.append(self.board)
-        print(moveList)
-        return moveList
+                if self.board[i][j] == 1:
+                    movesList.append(self.ChangeSurroundings(self.board, i, j, 0, n))
+                else:
+                    movesList.append(self.ChangeSurroundings(self.board, i, j, 1, n))
+        return movesList
+
+    def ChangeSurroundings(self, board, i, j, tile, n):
+        newBoard = board.copy()
+        newBoard[i][j] = tile
+        if i-1 >= 0:
+            if newBoard[i-1][j] == 1:
+                newBoard[i-1][j] = 0
+            else:
+                newBoard[i-1][j] = 1
+        if i+1 < n:
+            if newBoard[i+1][j] == 1:
+                newBoard[i+1][j] = 0
+            else:
+                newBoard[i+1][j] = 1
+        if j-1 >= 0:
+            if newBoard[i][j-1] == 1:
+                newBoard[i][j-1] = 0
+            else:
+                newBoard[i][j-1] = 1
+        if j+1 < n:
+            if newBoard[i][j+1] == 1:
+                newBoard[i][j+1] = 0
+            else:
+                newBoard[i][j+1] = 1
+        return newBoard

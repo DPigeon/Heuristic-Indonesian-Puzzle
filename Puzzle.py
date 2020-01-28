@@ -35,5 +35,7 @@ def main():
     # Call algorithms here (take all boards in the input order)
     possibleMoves = SearchThroughInputs(size, board) # Get a list of all possible moves
     print(possibleMoves[0])
+    print()
+    board[0].PrioritizeBoard(possibleMoves[0])
 
 main()

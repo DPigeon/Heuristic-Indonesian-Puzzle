@@ -1,4 +1,5 @@
 import numpy as np
+import re
 
 # Used to display the boards from the input
 
@@ -56,4 +57,33 @@ class Board:
                 newBoard[i][j+1] = 0
             else:
                 newBoard[i][j+1] = 1
-        return newBoard
+        return newBoard  
+    
+    def PrioritizeBoard(self, boards):
+        # Sort the boards from higher to lower priority
+        b = np.array(boards)
+        size = len(b)
+        n = int(size**0.5)
+        flattenBoards = []
+        values = []
+        individualValues = []
+        sortedBoards = []
+
+        for i in range(size): # We first, flatten the values in the list of boards then we join the values together just like the input file. We then sort them
+            flattenBoards.append(b[i].flatten())
+            values.append("".join(map(str, flattenBoards[i]))) # Convert the boards values into plain string to convert
+        values.sort(key=self.natural_keys) # Sort the values 
+
+        for i in range(size): # After sorted, we convert everything back to 2D arrays
+            individualValues.append([int(x) for x in str(values[i])]) # Converting back to original 2D values
+            sortedBoards.append(np.reshape(individualValues[i], (n, n))) # Converting from 1D array to 2D array
+        return sortedBoards
+
+
+    # Used to sort a string with integers inside (taken from human sorting http://nedbatchelder.com/blog/200712/human_sorting.html)
+    def atoi(self, text):
+        return int(text) if text.isdigit() else text
+
+    def natural_keys(self, text):
+        return [ self.atoi(c) for c in re.split(r'(\d+)', text) ]  
+            

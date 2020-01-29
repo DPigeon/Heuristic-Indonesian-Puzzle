@@ -34,6 +34,7 @@ def main():
     
     # Call algorithms here (take all boards in the input order)
     possibleMoves = SearchThroughInputs(size, board) # Get a list of all possible moves
-    print(possibleMoves[0])
-
+    for i in range(len(size)):
+        print(board[i].PrioritizeBoard(possibleMoves[i])) # Get the sorted by priority boards
+        # Now use those sorted boards with the DFS
 main()

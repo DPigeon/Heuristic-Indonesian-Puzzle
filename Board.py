@@ -1,6 +1,6 @@
 import numpy as np
 import re
-
+import copy
 
 # Used to display the boards from the input
 
@@ -10,6 +10,9 @@ class Board:
     def __init__(self, n, values):  # Initialize
         self.ConstructBoard(n, values)
         self.DrawBoard(n)
+
+    def __init__(self, board_to_copy):
+        self.board = copy.deepcopy(board_to_copy)
 
     def ConstructBoard(self, n, values):
         self.board = np.zeros((n, n), dtype=int)  # Initialize all with zeros

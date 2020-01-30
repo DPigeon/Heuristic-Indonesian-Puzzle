@@ -7,11 +7,11 @@ class Node(object):
 
     def __init__(self, parent, board):
         self.parent = parent  # The parent node
-        self.board = Board.Board(board)  # The current board configuration
-        self.children = list()  # The nodes neighbour
+        self.board = board  # The current board configuration
+        self.children = []  # The nodes neighbour
 
-    def __init__(self, node):
-        self.copy_node = copy.deepcopy(node)    # Defines a copy constructor in order to call node
+    def copy(self, node):
+        return copy.deepcopy(node)  # Defines a copy constructor in order to call node
 
     def add_children(self, n):
         if n not in self.children:  # Making sure there are no duplicates

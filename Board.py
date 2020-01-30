@@ -11,8 +11,8 @@ class Board:
         self.ConstructBoard(n, values)
         self.DrawBoard(n)
 
-    def __init__(self, board_to_copy):
-        self.board = copy.deepcopy(board_to_copy)
+    def copy(self, board_to_copy):
+        return copy.deepcopy(board_to_copy)
 
     def ConstructBoard(self, n, values):
         self.board = np.zeros((n, n), dtype=int)  # Initialize all with zeros

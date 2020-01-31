@@ -5,10 +5,11 @@ import Board
 # A Node contains current info and is linked to other Node
 class Node(object):
 
-    def __init__(self, parent, board):
+    def __init__(self, parent, board, depth):
         self.parent = parent  # The parent node
         self.board = board  # The current board configuration
         self.children = []  # The nodes neighbour
+        self.depth = depth  # Get the node's current depth
 
     def copy(self, node):
         return copy.deepcopy(node)  # Defines a copy constructor in order to call node
@@ -25,3 +26,6 @@ class Node(object):
 
     def get_children(self):
         return self.children
+
+    def get_depth(self):
+        return self.depth

@@ -1,6 +1,4 @@
 import copy
-import Board
-
 
 # A Node contains current info and is linked to other Node
 class Node(object):

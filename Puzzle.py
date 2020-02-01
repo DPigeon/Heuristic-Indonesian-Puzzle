@@ -1,13 +1,11 @@
 import InputParser
 import Board
-import Node
-import collections
 import DFS
 
 inputPath = "input/input.txt"
 
 
-def PrintAllAndInitialize(size, max_d, max_l, values):  # To show all boards to search through
+def print_all_and_initialize(size, max_d, max_l, values):  # To show all boards to search through
     board = []
     for i in range(len(size)):
         print()
@@ -17,24 +15,24 @@ def PrintAllAndInitialize(size, max_d, max_l, values):  # To show all boards to 
     return board
 
 
-def SearchThroughInputs(size, board):
-    movesList = []
+def search_through_inputs(size, board):
+    moves_list = []
     for i in range(len(size)):
-        movesList.append(board[i].GeneratePossibleMoves(int(size[i])))  # We get n^2 possible move every step
-    return movesList
+        moves_list.append(board[i].generate_possible_moves(int(size[i])))  # We get n^2 possible move every step
+    return moves_list
 
 
 def main():
     # Initializing
-    inputParser = InputParser.InputParser(inputPath)
+    input_parser = InputParser.InputParser(inputPath)
 
     # Lists of all boards from the inputPath by column #
-    size = inputParser.GetSizes()
-    values = inputParser.GetValues()
-    max_d = inputParser.GetMaxDepth()
-    max_l = inputParser.GetMaxSearchPath()
+    size = input_parser.get_sizes()
+    values = input_parser.get_values()
+    max_d = input_parser.get_max_depth()
+    max_l = input_parser.get_max_search_path()
 
-    board = PrintAllAndInitialize(size, max_d, max_l, values)  # Get a list of all the boards to search
+    board = print_all_and_initialize(size, max_d, max_l, values)  # Get a list of all the boards to search
 
     input("Run All Algorithms By Pressing Enter ")
 

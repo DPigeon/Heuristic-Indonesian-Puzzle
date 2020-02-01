@@ -1,51 +1,35 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
+      - image: circleci/python:3.6.2-stretch-browsers
 
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+          key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
 
+      # Install Dependencies and sroting in a virtual env
       - run:
-          name: install dependencies
+          name: Install Python deps in a venv
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
-
+            pip install -r requirements/dev.txt
       - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+            - "venv"
 
       # Lint
       - run:
-          name: lint
+          name: Lint
           command: |
-            pylint *
-
+            . venv/bin/activate
+            pylint --exit-zero *.py
       - store_artifacts:
-          path: test-reports
-          destination: test-reports
+          path: lint-reports/
+          destination: lint
+      - store_test_results:
+          path: lint-reports/
       # Maybe test the algorithms DFS, BFS & A* here later? Could be fun...

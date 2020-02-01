@@ -34,10 +34,10 @@ class DFS:
                 continue
 
             # Generate possible moves the board has, size^size is the number of the possible moves
-            possible_moves = current_node.get_current_board().GeneratePossibleMoves(int(size))
+            possible_moves = current_node.get_current_board().generate_possible_moves(int(size))
             list_of_children = []
             for i in range(len(possible_moves)):
-                children_to_append = Board.Board(int(size), current_node.get_current_board().PrioritizeBoard(possible_moves)[i])
+                children_to_append = Board.Board(int(size), current_node.get_current_board().prioritize_board(possible_moves)[i])
                 list_of_children.append(children_to_append)
 
             # Create nodes for each of the child nodes

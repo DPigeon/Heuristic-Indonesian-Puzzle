@@ -26,6 +26,12 @@ class Board:
                 print(self.board[i][j], end="|")
             print()
 
+    def transform_2d_to_1d(self):
+        result = ''
+        for element in self.board.ravel():
+            result += str(element)
+        return result
+
     def generate_possible_moves(self, n):  # Generates all surrounding tiles of the possible touched tile
         # Inverse all possible move and store it in array of n^2. Then return it
         moves_list = []

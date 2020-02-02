@@ -42,7 +42,7 @@ def main():
     for i in range(len(size)):
         # Now use those sorted boards with the DFS
         dfs_algorithm = DFS.DFS()
-        dfs_algorithm.DFS(board[i], size[i], max_d[i])
+        dfs_algorithm.DFS(i, board[i], size[i], max_d[i])
 
 
 main()

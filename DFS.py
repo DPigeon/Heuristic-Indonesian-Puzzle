@@ -1,15 +1,20 @@
 import Node
 import Board
+import OutputParser
 
 
 class DFS:
+
+    output_parser = OutputParser.OutputParser()
 
     def __init__(self):
         self.open_list = []  # Nodes currently getting evaluated, as a stack
         self.closed_list = []  # List of nodes that has been visited
 
     # Traversal search
-    def DFS(self, board, size, max_depth):
+    def DFS(self, iteration, board, size, max_depth):
+        # Init files
+        self.output_parser.init_search_files(iteration, "dfs")
         # Root node, which has a depth of 0
         root_node = Node.Node(None, board, 0)
 
@@ -27,6 +32,7 @@ class DFS:
 
             # Put the current node in the closed list since it's been checked and not the goal state
             if current_node not in self.closed_list:
+                self.output_parser.create_search_files(iteration, "dfs", 0, 0, 0, current_node.get_current_board().transform_2d_to_1d())
                 self.closed_list.append(current_node)
 
             # If the current_node is at the max_depth and still hasn't found the goal state, don't generate children

@@ -11,6 +11,8 @@ class OutputParser:
 
         if os.path.exists(file_name):  # Delete it
             os.remove(file_name)
+            file = open(file_name, "w")
+            file.close()
         else:
             file = open(file_name, "w")
             file.close()
@@ -40,8 +42,8 @@ class OutputParser:
 
         if solution:
             parameters = token + " "
-            for i in range(len(str(values))):
-                parameters += values[i] + " "
+            for i in range(len(values)):
+                parameters += str(values[i]) + " "
         else:
             parameters = "no solution"
 

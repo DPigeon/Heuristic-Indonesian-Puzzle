@@ -25,15 +25,14 @@ class DFS:
         # While the open list has something
         while self.open_list:
             current_node = self.open_list.pop(0)  # Get the first element on the stack
+            self.output_parser.create_search_files(iteration, "dfs", 0, 0, 0, current_node.get_current_board().transform_2d_to_1d())
 
             # If current node is the goal
             if current_node.get_current_board().check_goal_state():
                 return True
 
             # Put the current node in the closed list since it's been checked and not the goal state
-            if current_node not in self.closed_list:
-                self.output_parser.create_search_files(iteration, "dfs", 0, 0, 0, current_node.get_current_board().transform_2d_to_1d())
-                self.closed_list.append(current_node)
+            self.closed_list.append(current_node)
 
             # If the current_node is at the max_depth and still hasn't found the goal state, don't generate children
             if current_node.get_depth() >= int(max_depth):

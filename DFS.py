@@ -29,6 +29,7 @@ class DFS:
 
             # If current node is the goal
             if current_node.get_current_board().check_goal_state():
+                print("Found a solution path for Puzzle #" + str(iteration) + "!")
                 self.output_parser.create_solution_files(iteration, 'dfs', 'None', self.closed_list, True)
                 return True
 
@@ -56,6 +57,6 @@ class DFS:
 
             # Put remaining children to the front of the stack
             self.open_list[:0] = children_to_add
-        print("Could not find a path...")
+        print("Could not find a solution path for Puzzle #" + str(iteration) + "...")
         self.output_parser.create_solution_files(iteration, 'dfs', None, None, False)
         return False  # Open list is empty, and can't find a node at the goal state

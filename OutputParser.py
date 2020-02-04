@@ -34,10 +34,6 @@ class OutputParser:
             file.write(parameters)
             file.close()
 
-        # How to use
-        # outputParser = OutputParser.OutputParser()
-        # outputParser.create_search_files(0, "dfs", 0, 0, 0, 101001101)
-
     def create_solution_files(self, iteration, algorithm, token, values, solution):
         parameters = ""
 
@@ -54,6 +50,3 @@ class OutputParser:
         file = open("output/" + str(iteration) + "_" + algorithm + "_" + "solution.txt", "w")
         file.write(parameters)
         file.close()
-        # How to use
-        # outputParser = OutputParser.OutputParser()
-        # outputParser.create_solution_files(0, "dfs", "0", 100101000, true)

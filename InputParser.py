@@ -1,3 +1,5 @@
+import os
+import glob
 
 class InputParser:
 	size = [] # From 3 to 10
@@ -6,6 +8,13 @@ class InputParser:
 	values = [] # size^2 --> 9, 16, 25, 36, ... , 100
 	
 	def __init__(self, filePath): # Initialize
+		files = glob.glob('output/*.txt')
+		for f in files:
+			try: # We delete all .txt files before running the program again
+				os.remove(f)
+			except OSError as error:
+				print("Error:  %s : %s" % (f, error.strerror))
+		
 		with open(filePath) as file:
 			for line in file:
 				number = line.split() # Becoming strings. We have to convert to integer

@@ -36,7 +36,7 @@ def main():
     board = print_all_and_initialize(size, max_d, max_l, values)  # Get a list of all the boards to search
 
     input("Run All Algorithms By Pressing Enter ")
-
+    print()
 
     # Call algorithms here (take all boards in the input order)
     for i in range(len(size)):

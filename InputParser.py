@@ -8,7 +8,11 @@ class InputParser:
 	values = [] # size^2 --> 9, 16, 25, 36, ... , 100
 	
 	def __init__(self, filePath): # Initialize
-		files = glob.glob('output/*.txt')
+		pathOutput = "output/"
+		if not os.path.exists(pathOutput): # Create the output directory if not created
+			os.makedirs(pathOutput)
+
+		files = glob.glob(pathOutput + '*.txt')
 		for f in files:
 			try: # We delete all .txt files before running the program again
 				os.remove(f)

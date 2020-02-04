@@ -11,6 +11,7 @@ def print_all_and_initialize(size, max_d, max_l, values):  # To show all boards 
         print()
         print("Puzzle #" + str(i) + " with max_d = " + str(max_d[i]) + " and max_l = " + str(max_l[i]) + ":")
         board.append(Board.Board(int(size[i]), values[i]))  # Print every board
+        board[i].draw_board(int(size[i]))
         print()
     return board
 
@@ -35,7 +36,6 @@ def main():
     board = print_all_and_initialize(size, max_d, max_l, values)  # Get a list of all the boards to search
 
     input("Run All Algorithms By Pressing Enter ")
-
 
 
     # Call algorithms here (take all boards in the input order)

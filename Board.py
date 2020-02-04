@@ -1,6 +1,8 @@
 import re
 import copy
+
 import numpy as np
+
 
 # Used to display the boards from the input
 
@@ -9,7 +11,6 @@ class Board:
 
     def __init__(self, n, values):  # Initialize
         self.construct_board(n, values)
-        self.draw_board(n)
 
     def copy(self, board_to_copy):
         return copy.deepcopy(board_to_copy)
@@ -31,6 +32,58 @@ class Board:
         for element in self.board.ravel():
             result += str(element)
         return result
+
+    def neighbors(self, board, row, col):
+        neighbor = []
+
+        try:
+            if 0 <= row < len(board) and 0 <= col < len(board[0]):
+                # Top
+                neighbor.append(board[row + 1][col])
+        except IndexError:
+            pass
+
+        try:
+            # Bottom
+            neighbor.append(board[row - 1][col])
+        except IndexError:
+            pass
+
+        try:
+            # Left
+            neighbor.append(board[row][col - 1])
+        except IndexError:
+            pass
+
+        try:
+            # Right
+            neighbor.append(board[row][col + 1])
+        except IndexError:
+            pass
+
+        if np.count_nonzero(neighbor) >= 3:
+            return True
+        else:
+            return False
+
+    def convert_position_to_tiles(self, row, column):
+
+        # Char initilization, then transform to int
+        char = 'A'
+        row_start = ord(char[0])
+        # Rows are defined by letters A...
+        row_start += row
+        return chr(row_start) + str(column + 1)
+
+    def get_tiles_compare_boards(self, board):
+
+        # Compare boards by returning a 2D array
+        board_difference = np.subtract(self.board, board.board)
+
+        # Store the index of values that are not 0
+        for ix, iy in np.ndindex(board_difference.shape):
+            if self.neighbors(board_difference, ix, iy):
+                return self.convert_position_to_tiles(ix, iy)
 
     def generate_possible_moves(self, n):  # Generates all surrounding tiles of the possible touched tile
         # Inverse all possible move and store it in array of n^2. Then return it
@@ -79,7 +132,8 @@ class Board:
         for i in range(size):  # We first, flatten the values in the list of boards then we join the values together
             # just like the input file. We then sort them
             flatten_boards.append(b[i].flatten())
-            values.append("".join(map(str, flatten_boards[i])))  # Convert the boards values into plain string to convert
+            values.append(
+                "".join(map(str, flatten_boards[i])))  # Convert the boards values into plain string to convert
         values.sort(key=self.natural_keys)  # Sort the values
 
         return values

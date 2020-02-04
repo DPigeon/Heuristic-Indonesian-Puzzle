@@ -1,4 +1,5 @@
 import os
+import Board
 
 
 class OutputParser:
@@ -41,15 +42,18 @@ class OutputParser:
         parameters = ""
 
         if solution:
-            parameters = token + " "
             for i in range(len(values)):
-                parameters += str(values[i]) + " "
+                if values[i].get_parent() is not None:
+                    parameters += str(values[i].get_parent().get_current_board().get_tiles_compare_boards(
+                        values[i].get_current_board())) + " " + values[i].get_current_board().transform_2d_to_1d() + "\n"
+                else:
+                    parameters += "0" + " " + values[i].get_current_board().transform_2d_to_1d() + "\n"
         else:
             parameters = "no solution"
 
         file = open("output/" + str(iteration) + "_" + algorithm + "_" + "solution.txt", "w")
         file.write(parameters)
-
+        file.close()
         # How to use
         # outputParser = OutputParser.OutputParser()
         # outputParser.create_solution_files(0, "dfs", "0", 100101000, true)

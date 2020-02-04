@@ -11,6 +11,7 @@ def print_all_and_initialize(size, max_d, max_l, values):  # To show all boards 
         print()
         print("Puzzle #" + str(i) + " with max_d = " + str(max_d[i]) + " and max_l = " + str(max_l[i]) + ":")
         board.append(Board.Board(int(size[i]), values[i]))  # Print every board
+        board[i].draw_board(int(size[i]))
         print()
     return board
 
@@ -37,12 +38,11 @@ def main():
     input("Run All Algorithms By Pressing Enter ")
 
 
-
     # Call algorithms here (take all boards in the input order)
     for i in range(len(size)):
         # Now use those sorted boards with the DFS
         dfs_algorithm = DFS.DFS()
-        dfs_algorithm.DFS(board[i], size[i], max_d[i])
+        dfs_algorithm.DFS(i, board[i], size[i], max_d[i])
 
 
 main()

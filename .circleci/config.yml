@@ -40,9 +40,5 @@ jobs:
           name: Coverage Report
           command: |
             . venv/bin/activate
-            coverage run *.py && coverage report
-      - store_artifacts:
-          path: coverage-reports/
-          destination: coverage
-      - store_test_results:
-          path: coverage-reports/
+            coverage run *.py
+            coverage report -m

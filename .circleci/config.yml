@@ -31,19 +31,16 @@ jobs:
       # DFS Tests (2)
       - run:
           name: DFS Tests
-          command: . venv/bin/activate
+          command: |
+            . venv/bin/activate
             python -m unittest
-      - store_artifacts:
-          path: dfs-reports/
-          destination: dfs
-      - store_test_results:
-          path: dfs-reports/
 
       # Coverage Report
       - run:
           name: Coverage Report
-          command: . venv/bin/activate
-            coverage run *.py coverage report
+          command: |
+            . venv/bin/activate
+            coverage run *.py && coverage report
       - store_artifacts:
           path: coverage-reports/
           destination: coverage

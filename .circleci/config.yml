@@ -40,5 +40,6 @@ jobs:
           name: Coverage Report
           command: |
             . venv/bin/activate
-            coverage run *.py
+            python -m unittest discover -s test/
+            coverage run -m unittest discover -s test/
             coverage report -m

@@ -27,9 +27,18 @@ jobs:
           command: |
             . venv/bin/activate
             pylint --exit-zero *.py
-      - store_artifacts:
-          path: lint-reports/
-          destination: lint
-      - store_test_results:
-          path: lint-reports/
-      # Maybe test the algorithms DFS, BFS & A* here later? Could be fun...
+
+      # DFS Tests (2)
+      - run:
+          name: DFS Tests
+          command: |
+            . venv/bin/activate
+            python -m unittest
+
+      # Coverage Report
+      - run:
+          name: Coverage Report
+          command: |
+            . venv/bin/activate
+            coverage run --source=. -m unittest discover -s test/
+            coverage report -m

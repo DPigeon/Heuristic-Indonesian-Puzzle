@@ -30,6 +30,7 @@ class DFS:
             # If current node is the goal
             if current_node.get_current_board().check_goal_state():
                 print("Found a solution path for Puzzle #" + str(iteration) + "!")
+                self.closed_list.append(current_node)
                 self.output_parser.create_solution_files(iteration, 'dfs', 'None', self.closed_list, True)
                 return True
 

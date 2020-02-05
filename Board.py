@@ -34,8 +34,7 @@ class Board:
         return result
 
     def neighbors(self, board, row, col):
-        neighbor = []
-
+        neighbor = [board[row][col]]
         try:
             if 0 <= row < len(board) and 0 <= col < len(board[0]):
                 # Top

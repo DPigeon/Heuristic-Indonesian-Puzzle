@@ -39,7 +39,8 @@ class DFS:
                 continue
 
             # Put the current node in the closed list since it's been checked and not the goal state
-            self.closed_list.append(current_node)
+            if current_node not in self.closed_list:
+                self.closed_list.append(current_node)
 
             # Generate possible moves the board has, size^size is the number of the possible moves
             possible_moves = current_node.get_current_board().generate_possible_moves(int(size))

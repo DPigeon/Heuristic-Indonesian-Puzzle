@@ -35,30 +35,15 @@ class Board:
 
     def neighbors(self, board, row, col):
         neighbor = [board[row][col]]
-        try:
-            if 0 <= row < len(board) and 0 <= col < len(board[0]):
-                # Top
-                neighbor.append(board[row + 1][col])
-        except IndexError:
-            pass
 
-        try:
-            # Bottom
+        if row - 1 >= 0:  # left
             neighbor.append(board[row - 1][col])
-        except IndexError:
-            pass
-
-        try:
-            # Left
+        if row + 1 < len(board[0]):  # right
+            neighbor.append(board[row + 1][col])
+        if col - 1 >= 0:  # up
             neighbor.append(board[row][col - 1])
-        except IndexError:
-            pass
-
-        try:
-            # Right
+        if col + 1 < len(board[0]):  # down
             neighbor.append(board[row][col + 1])
-        except IndexError:
-            pass
 
         if np.count_nonzero(neighbor) >= 3:
             return True

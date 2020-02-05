@@ -1,5 +1,6 @@
 import unittest
 import sys
+import os
 sys.path.append('..')
 import DFS
 import Board
@@ -8,6 +9,10 @@ import Board
 
 class DfsTest(unittest.TestCase):
     def test_dfs_1(self):
+        pathOutput = "output/" # We create the output path for tests
+        if not os.path.exists(pathOutput):
+            os.makedirs(pathOutput)
+
         iteration = 0
         values = 1010010111001010
         size = 4

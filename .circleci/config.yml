@@ -32,4 +32,10 @@ jobs:
           destination: lint
       - store_test_results:
           path: lint-reports/
+
+      # DFS Tests (2)
+      - run:
+          name: DFS Tests
+          command: . venv/bin/activate
+            python3 -m unittest
       # Maybe test the algorithms DFS, BFS & A* here later? Could be fun...

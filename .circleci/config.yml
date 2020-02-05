@@ -40,5 +40,5 @@ jobs:
           name: Coverage Report
           command: |
             . venv/bin/activate
-            coverage run --source=.
+            coverage run --source=. -m unittest discover -s test/
             coverage report -m

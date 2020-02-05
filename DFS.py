@@ -1,3 +1,4 @@
+import time
 import Node
 import Board
 import OutputParser
@@ -6,6 +7,8 @@ import OutputParser
 class DFS:
 
     output_parser = OutputParser.OutputParser()
+    timeStart = 0 
+    timeEnd = 0
 
     def __init__(self):
         self.open_list = []  # Nodes currently getting evaluated, as a stack
@@ -15,6 +18,8 @@ class DFS:
     def DFS(self, iteration, board, size, max_depth):
         # Init files
         self.output_parser.init_search_files(iteration, "dfs")
+        # Start timer
+        self.timeStart = time.time()
         # Root node, which has a depth of 0
         root_node = Node.Node(None, board, 0)
 
@@ -32,6 +37,9 @@ class DFS:
                 print("Found a solution path for Puzzle #" + str(iteration) + "!")
                 self.closed_list.append(current_node)
                 self.output_parser.create_solution_files(iteration, 'dfs', 'None', self.closed_list, True)
+                self.timeEnd = time.time()
+                timeTaken = self.timeEnd - self.timeStart
+                print('Time taken: ' + str(timeTaken) + ' second(s).\n')
                 return True
 
             # If the current_node is at the max_depth and still hasn't found the goal state, don't generate children

@@ -67,6 +67,6 @@ class DFS:
 
             # Put remaining children to the front of the stack
             self.open_list[:0] = children_to_add
-        print("Could not find a solution path for Puzzle #" + str(iteration) + "...")
+        print("Could not find a solution path for Puzzle #" + str(iteration) + "...\n")
         self.output_parser.create_solution_files(iteration, 'dfs', None, None, False)
         return False  # Open list is empty, and can't find a node at the goal state

@@ -1,3 +1,4 @@
+import time
 import Node
 import Board
 import OutputParser
@@ -6,16 +7,19 @@ import OutputParser
 class DFS:
 
     output_parser = OutputParser.OutputParser()
+    timeStart = 0 
+    timeEnd = 0
 
     def __init__(self):
         self.open_list = []  # Nodes currently getting evaluated, as a stack
         self.closed_list = []  # List of nodes that has been visited
-        self.open_list_set = set()
 
     # Traversal search
     def DFS(self, iteration, board, size, max_depth):
         # Init files
         self.output_parser.init_search_files(iteration, "dfs")
+        # Start timer
+        self.timeStart = time.time()
         # Root node, which has a depth of 0
         root_node = Node.Node(None, board, 0)
 
@@ -33,6 +37,9 @@ class DFS:
                 print("Found a solution path for Puzzle #" + str(iteration) + "!")
                 self.closed_list.append(current_node)
                 self.output_parser.create_solution_files(iteration, 'dfs', 'None', self.closed_list, True)
+                self.timeEnd = time.time()
+                timeTaken = self.timeEnd - self.timeStart
+                print('Time taken: ' + str(timeTaken) + ' second(s).\n')
                 return True
 
             # If the current_node is at the max_depth and still hasn't found the goal state, don't generate children
@@ -55,14 +62,11 @@ class DFS:
                 node_to_add = Node.Node(current_node, list_of_children[i], current_node.get_depth()+1)
                 current_node.add_children(node_to_add)
 
-            # Generate a list of children to add by removing the one's already in the open and closed list
-            generated_children_set = set(current_node.get_children())
-            children_not_in_set = generated_children_set - self.open_list_set
-            # children_to_add = [x for x in generated_children_set if x not in self.open_list or self.closed_list]
+            # Generate a list of children to add by removing the one's already in the open nad closed list
+            children_to_add = [x for x in current_node.get_children() if x not in self.open_list or self.closed_list]
 
-        # Put remaining children to the front of the stack
-            self.open_list_set = self.open_list_set.union(children_not_in_set)
-            self.open_list[:0] = list(children_not_in_set)
-        print("Could not find a solution path for Puzzle #" + str(iteration) + "...")
+            # Put remaining children to the front of the stack
+            self.open_list[:0] = children_to_add
+        print("Could not find a solution path for Puzzle #" + str(iteration) + "...\n")
         self.output_parser.create_solution_files(iteration, 'dfs', None, None, False)
         return False  # Open list is empty, and can't find a node at the goal state

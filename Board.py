@@ -15,6 +15,9 @@ class Board:
     def copy(self, board_to_copy):
         return copy.deepcopy(board_to_copy)
 
+    def __hash__(self):
+        return hash(str(self.board))
+
     def construct_board(self, n, values):
         self.board = np.zeros((n, n), dtype=int)  # Initialize all with zeros
         individual_values = [int(x) for x in str(values)]  # Converting the long integer to individual ints

@@ -43,6 +43,8 @@ def main():
         # Now use those sorted boards with the DFS
         dfs_algorithm = DFS.DFS()
         dfs_algorithm.DFS(i, board[i], size[i], max_d[i])
+        if i+1 < len(size):
+            print("Running the next input #" + str(i+1) + "...")
 
 
 main()

@@ -15,6 +15,9 @@ class Board:
     def copy(self, board_to_copy):
         return copy.deepcopy(board_to_copy)
 
+    def __hash__(self):
+        return hash(str(self.board))
+
     def construct_board(self, n, values):
         self.board = np.zeros((n, n), dtype=int)  # Initialize all with zeros
         individual_values = [int(x) for x in str(values)]  # Converting the long integer to individual ints
@@ -104,23 +107,19 @@ class Board:
                 new_board[i][j + 1] = 0
             else:
                 new_board[i][j + 1] = 1
-        return new_board
+      
+        new = "".join(map(str, new_board.flatten())) # convert from 2D to 1D
+         
+        #print(new)
+            
+           
+        return new
 
     def prioritize_board(self, boards):
         # Sort the boards from higher to lower priority
-        b = np.array(boards)
-        size = len(b)
-        flatten_boards = []
-        values = []
+        boards.sort(key=self.natural_keys)  # Sort the values
 
-        for i in range(size):  # We first, flatten the values in the list of boards then we join the values together
-            # just like the input file. We then sort them
-            flatten_boards.append(b[i].flatten())
-            values.append(
-                "".join(map(str, flatten_boards[i])))  # Convert the boards values into plain string to convert
-        values.sort(key=self.natural_keys)  # Sort the values
-
-        return values
+        return boards
 
     def check_goal_state(self):
         # Defining goal state

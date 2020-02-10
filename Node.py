@@ -11,7 +11,11 @@ class Node(object):
         self.depth = depth  # Get the node's current depth
 
     def __eq__(self, other):
-        return (self.board.board == other.get_current_board().board).all()
+        if type(other) is type(self):
+            return (self.board.board == other.get_current_board().board).all()
+
+    def __hash__(self):
+        return hash(str(self.board.board))
 
     def copy(self, node):
         return copy.deepcopy(node)  # Defines a copy constructor in order to call node

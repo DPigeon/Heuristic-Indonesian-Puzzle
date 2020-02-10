@@ -1,20 +1,22 @@
 import time
-import Node
 import Board
+import Node
 import OutputParser
 
 
 class DFS:
 
     output_parser = OutputParser.OutputParser()
-    timeStart = 0 
+    timeStart = 0
     timeEnd = 0
 
     def __init__(self):
         self.open_list = []  # Nodes currently getting evaluated, as a stack
         self.closed_list = []  # List of nodes that has been visited
+        self.open_dict = dict()
+        self.closed_dict = dict()
 
-    # Traversal search
+        # Traversal search
     def DFS(self, iteration, board, size, max_depth):
         # Init files
         self.output_parser.init_search_files(iteration, "dfs")
@@ -47,24 +49,23 @@ class DFS:
                 continue
 
             # Put the current node in the closed list since it's been checked and not the goal state
-            if current_node not in self.closed_list:
+            if current_node not in self.closed_dict:
+                self.closed_dict[current_node] = 1
                 self.closed_list.append(current_node)
 
             # Generate possible moves the board has, size^size is the number of the possible moves
+            # Create nodes for each of the child nodes
             possible_moves = current_node.get_current_board().generate_possible_moves(int(size))
-            list_of_children = []
             for i in range(len(possible_moves)):
                 children_to_append = Board.Board(int(size), current_node.get_current_board().prioritize_board(possible_moves)[i])
-                list_of_children.append(children_to_append)
-
-            # Create nodes for each of the child nodes
-            for i in range(len(list_of_children)):
-                node_to_add = Node.Node(current_node, list_of_children[i], current_node.get_depth()+1)
+                node_to_add = Node.Node(current_node, children_to_append, current_node.get_depth()+1)
                 current_node.add_children(node_to_add)
 
-            # Generate a list of children to add by removing the one's already in the open nad closed list
-            children_to_add = [x for x in current_node.get_children() if x not in self.open_list or self.closed_list]
+            # Generate a list of children to add by removing the one's already in the open and closed list
+            children_to_add = [x for x in current_node.get_children() if x not in self.open_dict and self.closed_dict]
 
+            for i in range(len(children_to_add)):
+                self.open_dict[children_to_add[i]] = 1
             # Put remaining children to the front of the stack
             self.open_list[:0] = children_to_add
         print("Could not find a solution path for Puzzle #" + str(iteration) + "...\n")

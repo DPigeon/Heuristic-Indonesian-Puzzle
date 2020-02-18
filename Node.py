@@ -4,15 +4,20 @@ import copy
 # A Node contains current info and is linked to other Node
 class Node(object):
 
-    def __init__(self, parent, board, depth):
+    def __init__(self, parent, board, depth, f):
         self.parent = parent  # The parent node
         self.board = board  # The current board configuration
         self.children = []  # The nodes neighbour
         self.depth = depth  # Get the node's current depth
+        self.f = f # Heuristic
 
     def __eq__(self, other):
         if type(other) is type(self):
             return (self.board.board == other.get_current_board().board).all()
+
+    def __lt__(self, other): # Used in the priority queue
+        if (self.f != None):
+            return self.f < other.f
 
     def __hash__(self):
         return hash(str(self.board.board))
@@ -35,3 +40,6 @@ class Node(object):
 
     def get_depth(self):
         return self.depth
+    
+    def get_estimate(self):
+        return self.f

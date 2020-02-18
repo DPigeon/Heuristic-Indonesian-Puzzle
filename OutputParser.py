@@ -34,9 +34,9 @@ class OutputParser:
             file.write(parameters)
             file.close()
 
-    def create_solution_files(self, iteration, algorithm, token, values, solution):
+    def create_solution_files(self, iteration, algorithm, values, solution):
         parameters = ""
-
+        
         if solution:
             for i in range(len(values)):
                 if values[i].get_parent() is not None:

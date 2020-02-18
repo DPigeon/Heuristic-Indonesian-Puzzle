@@ -9,7 +9,7 @@ class Node(object):
         self.board = board  # The current board configuration
         self.children = []  # The nodes neighbour
         self.depth = depth  # Get the node's current depth
-        self.f = f # Heuristic
+        self.f = f # Estimate Heuristic f = g + h
 
     def __eq__(self, other):
         if type(other) is type(self):

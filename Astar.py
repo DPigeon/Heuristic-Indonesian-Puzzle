@@ -23,6 +23,9 @@ class Astar:
         h = np.count_nonzero(board)
         return h
 
+    #def update_node_in_list(self, board):
+
+
     def Astar(self, iteration, board, size, max_length):
         length = 0
         # Init files
@@ -49,7 +52,7 @@ class Astar:
        
             # We look if the node is the state goal
             if current_node[1].get_current_board().check_goal_state():
-                print("Found a solution path for Puzzle #" + str(iteration) + "!")
+                print("Found a solution path for Puzzle #" + str(iteration) + " with A*!")
                 heapq.heappush(self.closed_list, (current_node[0], current_node[1]))
 
                 finalClosedList = []
@@ -72,7 +75,7 @@ class Astar:
             
             # If node exist in closed list and f is smaller, we delete the one in closed list and add to open list
             for i in range(len(self.closed_list)):
-                if self.closed_list[i] == current_node and f < self.closed_list[i][0]: # If node exist in closed list & f is smaller
+                if current_node[1] == self.closed_list[i][1]  and f < self.closed_list[i][0]: # If node exist in closed list & f is smaller
                     self.closed_list[i] = self.closed_list[-1] # Delete the one in closed list
                     self.closed_list.pop()
                     heapq.heapify(self.closed_list)
@@ -81,6 +84,7 @@ class Astar:
             # If node exist in open list but f is smaller, update the node with the one with smaller f
             for i in range(len(self.open_list)):
                 if self.open_list[i] == current_node and f < self.open_list[i][0]: # If node exist in open list & f is smaller
+                    print("hi")
                     self.open_list[i] = self.open_list[-1] # Delete the one in open list
                     self.open_list.pop()
                     heapq.heapify(self.open_list)
@@ -90,7 +94,7 @@ class Astar:
             possible_moves = current_node[1].get_current_board().generate_possible_moves(int(size))
             for i in range(len(possible_moves)):
                 children_to_append = Board.Board(int(size), current_node[1].get_current_board().prioritize_board(possible_moves)[i])
-                totalEstimate = current_node[1].get_depth() + 1 + self.evaluate_heuristic_1(children_to_append) # heuristic
+                totalEstimate = current_node[1].get_depth() + 1 + self.evaluate_heuristic_1(children_to_append.board) # heuristic
                 node_to_add = Node.Node(current_node[1], children_to_append, current_node[1].get_depth() + 1, totalEstimate)
                 current_node[1].add_children(node_to_add)
 
@@ -101,6 +105,6 @@ class Astar:
             for i in range(len(children_to_add)):
                 heapq.heappush(self.open_list, (children_to_add[i].get_estimate(), children_to_add[i]))
 
-        print("Could not find a solution path for Puzzle #" + str(iteration) + ".\n")
+        print("Could not find a solution path for Puzzle #" + str(iteration) + " with A*.\n")
         self.output_parser.create_solution_files(iteration, "astar", None, False)
         return False  # Open list is empty, and can't find a node at the goal state

@@ -16,7 +16,6 @@ class Astar:
         self.open_list = [] # Nodes currently getting evaluated, as a priority queue
         self.closed_list = []  # List of nodes that has been visited
         heapq.heapify(self.open_list) # Using a priority queue as heap queue
-        heapq.heapify(self.closed_list)
 
     def evaluate_heuristic_1(self, board):
         # Counting number of 1's and taking the smallest f priority for now as a heuristic for test
@@ -53,13 +52,8 @@ class Astar:
             # We look if the node is the state goal
             if current_node[1].get_current_board().check_goal_state():
                 print("Found a solution path for Puzzle #" + str(iteration) + " with A*!")
-                heapq.heappush(self.closed_list, (current_node[0], current_node[1]))
-
-                finalClosedList = []
-                for i in range(len(self.closed_list)): # Converting all heap queue to nodes
-                    finalClosedList.append(self.closed_list[i][1])
-
-                self.output_parser.create_solution_files(iteration, "astar", finalClosedList, True)
+                self.closed_list.append(current_node[1])
+                self.output_parser.create_solution_files(iteration, "astar", self.closed_list, True)
                 self.timeEnd = time.time()
                 timeTaken = self.timeEnd - self.timeStart
                 print('Time taken: ' + str(timeTaken) + ' second(s).\n')
@@ -71,20 +65,20 @@ class Astar:
             
             # Put the current node in the closed list since it's been checked and not the goal state
             if current_node not in self.closed_list: 
-                heapq.heappush(self.closed_list, (f, current_node[1]))
+                self.closed_list.append(current_node[1])
             
             # If node exist in closed list and f is smaller, we delete the one in closed list and add to open list
             for i in range(len(self.closed_list)):
-                if current_node[1] == self.closed_list[i][1]  and f < self.closed_list[i][0]: # If node exist in closed list & f is smaller
+                if current_node[1] == self.closed_list[i]  and f < self.closed_list[i].get_estimate(): # If node exist in closed list & f is smaller
+                    print("hi1")
                     self.closed_list[i] = self.closed_list[-1] # Delete the one in closed list
                     self.closed_list.pop()
-                    heapq.heapify(self.closed_list)
                     heapq.heappush(self.open_list, (f, current_node[1])) # Add it to open list as seen
 
             # If node exist in open list but f is smaller, update the node with the one with smaller f
             for i in range(len(self.open_list)):
-                if self.open_list[i] == current_node and f < self.open_list[i][0]: # If node exist in open list & f is smaller
-                    print("hi")
+                if current_node[1] == self.open_list[i][1] and f < self.open_list[i][0]: # If node exist in open list & f is smaller
+                    print("hi2")
                     self.open_list[i] = self.open_list[-1] # Delete the one in open list
                     self.open_list.pop()
                     heapq.heapify(self.open_list)

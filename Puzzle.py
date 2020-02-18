@@ -42,8 +42,8 @@ def main():
     # Call algorithms here (take all boards in the input order)
     for i in range(len(size)):
         # Now use those sorted boards with the DFS
-        dfs_algorithm = DFS.DFS()
-        dfs_algorithm.DFS(i, board[i], size[i], max_d[i])
+        #dfs_algorithm = DFS.DFS()
+        #dfs_algorithm.DFS(i, board[i], size[i], max_d[i])
 
         astar_algorithm = Astar.Astar()
         astar_algorithm.Astar(i, board[i], size[i], max_l[i])

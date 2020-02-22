@@ -72,23 +72,6 @@ class Astar:
             # Put the current node in the closed list since it's been checked and not the goal state
             if current_node[1] not in self.closed_list: 
                 self.closed_list.append(current_node[1])
-            
-            # If node exist in closed list and f is smaller, we delete the one in closed list and add to open list
-            for i in range(len(self.closed_list)):
-                if current_node[1] == self.closed_list[i]  and f < self.closed_list[i].get_estimate(): # If node exist in closed list & f is smaller
-                    print("hi1")
-                    self.closed_list[i] = self.closed_list[-1] # Delete the one in closed list
-                    self.closed_list.pop()
-                    heapq.heappush(self.open_list, (f, current_node[1])) # Add it to open list as seen
-
-            # If node exist in open list but f is smaller, update the node with the one with smaller f
-            for i in range(len(self.open_list)):
-                if current_node[1] == self.open_list[i][1] and f < self.open_list[i][0]: # If node exist in open list & f is smaller
-                    print("hi2")
-                    self.open_list[i] = self.open_list[-1] # Delete the one in open list
-                    self.open_list.pop()
-                    heapq.heapify(self.open_list)
-                    heapq.heappush(self.open_list, (f, current_node[1])) # Update it with the smallest f
 
             # Create nodes for each of the child nodes by generating the next moves
             possible_moves = current_node[1].get_current_board().generate_possible_moves(int(size))

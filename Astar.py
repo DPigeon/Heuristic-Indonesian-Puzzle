@@ -22,8 +22,14 @@ class Astar:
         h = np.count_nonzero(board)
         return h
 
-    #def update_node_in_list(self, board):
-
+    def back_track(self, goal_node):
+        back_track_list = []
+        current_node = Node.Node(goal_node.get_parent(), goal_node.get_current_board(), goal_node.get_depth(), goal_node.get_estimate())
+        back_track_list.append(current_node) # We add the goal state
+        while current_node.get_parent() != None:
+            back_track_list.insert(0, current_node.get_parent()) # We add each parents at the the beginning by back tracking
+            current_node = current_node.get_parent() # We create the next one to iterate
+        return back_track_list
 
     def Astar(self, iteration, board, size, max_length):
         length = 0
@@ -53,7 +59,7 @@ class Astar:
             if current_node[1].get_current_board().check_goal_state():
                 print("Found a solution path for Puzzle #" + str(iteration) + " with A*!")
                 self.closed_list.append(current_node[1])
-                self.output_parser.create_solution_files(iteration, "astar", self.closed_list, True)
+                self.output_parser.create_solution_files(iteration, "astar", self.back_track(current_node[1]), True)
                 self.timeEnd = time.time()
                 timeTaken = self.timeEnd - self.timeStart
                 print('Time taken: ' + str(timeTaken) + ' second(s).\n')
@@ -64,7 +70,7 @@ class Astar:
                 continue
             
             # Put the current node in the closed list since it's been checked and not the goal state
-            if current_node not in self.closed_list: 
+            if current_node[1] not in self.closed_list: 
                 self.closed_list.append(current_node[1])
             
             # If node exist in closed list and f is smaller, we delete the one in closed list and add to open list

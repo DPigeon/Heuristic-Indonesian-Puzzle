@@ -127,8 +127,6 @@ class Board:
         goal_state = np.zeros((row_count, row_count), dtype=int)  # Defining our goal state which is a board of 0's
         return (goal_state == self.board).all()  # Checking if all elements are equal
 
-    # for i in range(size)
-
     # Used to sort a string with integers inside (taken from human sorting
     # http://nedbatchelder.com/blog/200712/human_sorting.html)
     def atoi(self, text):

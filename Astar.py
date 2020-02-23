@@ -80,7 +80,7 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
             for i in range(len(children_to_add)):
                 heapq.heappush(self.open_list, (children_to_add[i].get_estimate(), children_to_add[i]))
 
-        print("Could not find a solution path for Puzzle #" + str(iteration) + " with " + stringName + "\n")
+        print("Could not find a solution path for Puzzle #" + str(iteration) + " with " + stringName + ".\n")
         self.output_parser.create_solution_files(iteration, name, None, False)
         return False  # Open list is empty, and can't find a node at the goal state
 

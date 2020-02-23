@@ -1,4 +1,4 @@
-# COMP472-Project-1
+# Heuristic Indonesian Dot Puzzle
 
 First, install Miniconda with Python 3.7 at
 

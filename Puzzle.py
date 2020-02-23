@@ -1,6 +1,7 @@
 import InputParser
 import Board
 import DFS
+import Astar
 
 inputPath = "input/input.txt"
 
@@ -43,6 +44,10 @@ def main():
         # Now use those sorted boards with the DFS
         dfs_algorithm = DFS.DFS()
         dfs_algorithm.DFS(i, board[i], size[i], max_d[i])
+
+        astar_algorithm = Astar.Astar()
+        astar_algorithm.Astar(i, board[i], size[i], max_l[i])
+
         if i+1 < len(size):
             print("Running the next input #" + str(i+1) + "...")
 

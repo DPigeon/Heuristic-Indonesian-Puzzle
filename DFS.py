@@ -23,7 +23,7 @@ class DFS:
         # Start timer
         self.timeStart = time.time()
         # Root node, which has a depth of 0
-        root_node = Node.Node(None, board, 0)
+        root_node = Node.Node(None, board, 0, 0)
 
         # Put the root node onto the stack
         self.open_list = [root_node]
@@ -36,9 +36,9 @@ class DFS:
 
             # If current node is the goal
             if current_node.get_current_board().check_goal_state():
-                print("Found a solution path for Puzzle #" + str(iteration) + "!")
+                print("Found a solution path for Puzzle #" + str(iteration) + " with DFS!")
                 self.closed_list.append(current_node)
-                self.output_parser.create_solution_files(iteration, 'dfs', 'None', self.closed_list, True)
+                self.output_parser.create_solution_files(iteration, 'dfs', self.closed_list, True)
                 self.timeEnd = time.time()
                 timeTaken = self.timeEnd - self.timeStart
                 print('Time taken: ' + str(timeTaken) + ' second(s).\n')
@@ -58,7 +58,7 @@ class DFS:
             possible_moves = current_node.get_current_board().generate_possible_moves(int(size))
             for i in range(len(possible_moves)):
                 children_to_append = Board.Board(int(size), current_node.get_current_board().prioritize_board(possible_moves)[i])
-                node_to_add = Node.Node(current_node, children_to_append, current_node.get_depth()+1)
+                node_to_add = Node.Node(current_node, children_to_append, current_node.get_depth()+1, 0)
                 current_node.add_children(node_to_add)
 
             # Generate a list of children to add by removing the one's already in the open and closed list
@@ -68,6 +68,6 @@ class DFS:
                 self.open_dict[children_to_add[i]] = 1
             # Put remaining children to the front of the stack
             self.open_list[:0] = children_to_add
-        print("Could not find a solution path for Puzzle #" + str(iteration) + ".\n")
-        self.output_parser.create_solution_files(iteration, 'dfs', None, None, False)
+        print("Could not find a solution path for Puzzle #" + str(iteration) + " with DFS.\n")
+        self.output_parser.create_solution_files(iteration, 'dfs', None, False)
         return False  # Open list is empty, and can't find a node at the goal state

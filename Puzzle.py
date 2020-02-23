@@ -45,8 +45,12 @@ def main():
         dfs_algorithm = DFS.DFS()
         dfs_algorithm.DFS(i, board[i], size[i], max_d[i])
 
+        # Using the same class for BFS, but g = 0 and prioritizing h(n) instead
+        bfs_algorithm = Astar.Astar()
+        bfs_algorithm.Astar(i, board[i], size[i], max_l[i], "bfs", "BFS")
+
         astar_algorithm = Astar.Astar()
-        astar_algorithm.Astar(i, board[i], size[i], max_l[i])
+        astar_algorithm.Astar(i, board[i], size[i], max_l[i], "astar", "A*")
 
         if i+1 < len(size):
             print("Running the next input #" + str(i+1) + "...")

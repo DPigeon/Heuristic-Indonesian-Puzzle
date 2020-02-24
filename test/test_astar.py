@@ -19,7 +19,7 @@ class AstarTest(unittest.TestCase):
         max_l = 10
         board = Board.Board(int(size), values)
         astar_algorithm = Astar.Astar()
-        self.assertEqual(astar_algorithm.Astar(iteration, board, size, max_l), False) # no solution
+        self.assertEqual(astar_algorithm.Astar(iteration, board, size, max_l, "astar", "A*"), False) # no solution
     
     def test_astar_2(self):
         iteration = 1
@@ -28,4 +28,4 @@ class AstarTest(unittest.TestCase):
         max_l = 9
         board = Board.Board(int(size), values)
         astar_algorithm = Astar.Astar()
-        self.assertEqual(astar_algorithm.Astar(iteration, board, size, max_l), True)
+        self.assertEqual(astar_algorithm.Astar(iteration, board, size, max_l, "astar", "A*"), True)

@@ -5,8 +5,10 @@ import Board
 import Node
 import OutputParser
 
+# Priority Queue Sorted by h(n) --> BFS
+# Priority Queue Sorted by f(n) --> A*
 
-class Astar:
+class Astar: # Using BFS in this class too as it is derived of A* with g = 0
 
     output_parser = OutputParser.OutputParser()
     timeStart = 0
@@ -17,24 +19,10 @@ class Astar:
         self.closed_list = []  # List of nodes that has been visited
         heapq.heapify(self.open_list) # Using a priority queue as heap queue
 
-    def evaluate_heuristic_1(self, board):
-        # Counting number of 1's and taking the smallest f priority for now as a heuristic for test
-        h = np.count_nonzero(board)
-        return h
-
-    def back_track(self, goal_node):
-        back_track_list = []
-        current_node = Node.Node(goal_node.get_parent(), goal_node.get_current_board(), goal_node.get_depth(), goal_node.get_estimate())
-        back_track_list.append(current_node) # We add the goal state
-        while current_node.get_parent() != None:
-            back_track_list.insert(0, current_node.get_parent()) # We add each parents at the the beginning by back tracking
-            current_node = current_node.get_parent() # We create the next one to iterate
-        return back_track_list
-
-    def Astar(self, iteration, board, size, max_length):
+    def Astar(self, iteration, board, size, max_length, name, stringName):
         length = 0
         # Init files
-        self.output_parser.init_search_files(iteration, "astar")
+        self.output_parser.init_search_files(iteration, name)
         # Start timer
         self.timeStart = time.time()
 
@@ -49,17 +37,19 @@ class Astar:
         while self.open_list:
             current_node = heapq.heappop(self.open_list) # We pop the smallest element to come according to f(n)
             f = current_node[0]
-            g = current_node[1].get_depth()
+            g = 0 # For BFS
+            if name == "astar":
+                g = current_node[1].get_depth()
             h = self.evaluate_heuristic_1(current_node[1].get_current_board().board)
 
-            self.output_parser.create_search_files(iteration, "astar", f, g, h, current_node[1].get_current_board().transform_2d_to_1d())
+            self.output_parser.create_search_files(iteration, name, f, g, h, current_node[1].get_current_board().transform_2d_to_1d())
             length = length + 1 # Increment the nodes searched
        
             # We look if the node is the state goal
             if current_node[1].get_current_board().check_goal_state():
-                print("Found a solution path for Puzzle #" + str(iteration) + " with A*!")
+                print("Found a solution path for Puzzle #" + str(iteration) + " with " + stringName + "!")
                 self.closed_list.append(current_node[1])
-                self.output_parser.create_solution_files(iteration, "astar", self.back_track(current_node[1]), True)
+                self.output_parser.create_solution_files(iteration, name, self.back_track(current_node[1]), True)
                 self.timeEnd = time.time()
                 timeTaken = self.timeEnd - self.timeStart
                 print('Time taken: ' + str(timeTaken) + ' second(s).\n')
@@ -77,7 +67,9 @@ class Astar:
             possible_moves = current_node[1].get_current_board().generate_possible_moves(int(size))
             for i in range(len(possible_moves)):
                 children_to_append = Board.Board(int(size), current_node[1].get_current_board().prioritize_board(possible_moves)[i])
-                totalEstimate = current_node[1].get_depth() + 1 + self.evaluate_heuristic_1(children_to_append.board) # heuristic
+                totalEstimate = self.evaluate_heuristic_1(children_to_append.board) # For BFS
+                if name == "astar":
+                    totalEstimate = current_node[1].get_depth() + 1 + self.evaluate_heuristic_1(children_to_append.board) # heuristic for A*
                 node_to_add = Node.Node(current_node[1], children_to_append, current_node[1].get_depth() + 1, totalEstimate)
                 current_node[1].add_children(node_to_add)
 
@@ -88,6 +80,20 @@ class Astar:
             for i in range(len(children_to_add)):
                 heapq.heappush(self.open_list, (children_to_add[i].get_estimate(), children_to_add[i]))
 
-        print("Could not find a solution path for Puzzle #" + str(iteration) + " with A*.\n")
-        self.output_parser.create_solution_files(iteration, "astar", None, False)
+        print("Could not find a solution path for Puzzle #" + str(iteration) + " with " + stringName + ".\n")
+        self.output_parser.create_solution_files(iteration, name, None, False)
         return False  # Open list is empty, and can't find a node at the goal state
+
+    def evaluate_heuristic_1(self, board):
+        # Counting number of 1's and taking the smallest f priority for now as a heuristic for test
+        h = np.count_nonzero(board)
+        return h
+
+    def back_track(self, goal_node):
+        back_track_list = []
+        current_node = Node.Node(goal_node.get_parent(), goal_node.get_current_board(), goal_node.get_depth(), goal_node.get_estimate())
+        back_track_list.append(current_node) # We add the goal state
+        while current_node.get_parent() != None:
+            back_track_list.insert(0, current_node.get_parent()) # We add each parents at the the beginning by back tracking
+            current_node = current_node.get_parent() # We create the next one to iterate
+        return back_track_list

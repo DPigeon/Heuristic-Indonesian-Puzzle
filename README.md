@@ -1,4 +1,5 @@
 # Heuristic Indonesian Dot Puzzle
+https://github.com/DPigeon/Heuristic-Indonesian-Puzzle
 
 First, install Miniconda with Python 3.7 at
 

@@ -44,7 +44,7 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
 
             self.output_parser.create_search_files(iteration, name, f, g, h, current_node[1].get_current_board().transform_2d_to_1d())
             length = length + 1 # Increment the nodes searched
-       
+
             # We look if the node is the state goal
             if current_node[1].get_current_board().check_goal_state():
                 print("Found a solution path for Puzzle #" + str(iteration) + " with " + stringName + "!")
@@ -58,9 +58,9 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
             # If the current_node is at the max_length and still hasn't found the goal state, don't generate children
             if length >= int(max_length):
                 continue
-            
+
             # Put the current node in the closed list since it's been checked and not the goal state
-            if current_node[1] not in self.closed_list: 
+            if current_node[1] not in self.closed_list:
                 self.closed_list.append(current_node[1])
 
             # Create nodes for each of the child nodes by generating the next moves
@@ -69,7 +69,8 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
                 children_to_append = Board.Board(int(size), current_node[1].get_current_board().prioritize_board(possible_moves)[i])
                 totalEstimate = self.evaluate_heuristic_1(children_to_append.board) # For BFS
                 if name == "astar":
-                    totalEstimate = current_node[1].get_depth() + 1 + self.evaluate_heuristic_1(children_to_append.board) # heuristic for A*
+                    totalEstimate = current_node[1].get_depth() + 1 + self.generate_heuristic_based_on_future_ones(children_to_append.board) # heuristic for A*
+                    # totalEstimate = current_node[1].get_depth() + 1 + self.evaluate_heuristic_1(children_to_append.board) # heuristic for A*
                 node_to_add = Node.Node(current_node[1], children_to_append, current_node[1].get_depth() + 1, totalEstimate)
                 current_node[1].add_children(node_to_add)
 
@@ -88,6 +89,33 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
         # Counting number of 1's and taking the smallest f priority for now as a heuristic for test
         h = np.count_nonzero(board)
         return h
+
+    def generate_heuristic_based_on_future_ones(self, board):
+        total_number_of_ones = 0
+        size = len(board)
+        for i in range(size):
+            for j in range(size):
+                total_number_of_ones = total_number_of_ones + self.change_surroundings(board, i, j, size)
+
+        return total_number_of_ones
+
+    def change_surroundings(self, board, i, j, n):
+        new_board = board.copy()  # Copy the list
+        heuristic_to_return = 0
+        # Change the current tile touched
+        if new_board[i][j] == 1:
+            heuristic_to_return += 1
+
+        if i - 1 >= 0 and new_board[i - 1][j] == 1:  # left
+            heuristic_to_return += 1
+        if i + 1 < n and new_board[i + 1][j] == 1:  # right
+            heuristic_to_return += 1
+        if j - 1 >= 0 and new_board[i][j - 1] == 1:  # up
+            heuristic_to_return += 1
+        if j + 1 < n and new_board[i][j + 1] == 1:  # down
+            heuristic_to_return += 1
+
+        return heuristic_to_return
 
     def back_track(self, goal_node):
         back_track_list = []

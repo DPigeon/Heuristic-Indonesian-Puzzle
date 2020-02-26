@@ -14,10 +14,21 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
     timeStart = 0
     timeEnd = 0
 
+    heuristic = None # The heuristic function
+    # 0 --> counting heuristic
+    # 1 --> future ahead 1 heuristic
+    # 2 --> ???
+    heuristicNum = 1 # Change this number to try different heuristics
+
     def __init__(self):
         self.open_list = [] # Nodes currently getting evaluated, as a priority queue
         self.closed_list = []  # List of nodes that has been visited
         heapq.heapify(self.open_list) # Using a priority queue as heap queue
+        if self.heuristicNum == 0:
+            self.heuristic = self.generate_heuristic_based_on_counting
+        if self.heuristicNum == 1:
+            self.heuristic = self.generate_heuristic_based_on_future_ones
+
 
     def Astar(self, iteration, board, size, max_length, name, stringName):
         length = 0
@@ -27,7 +38,7 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
         self.timeStart = time.time()
 
         # Root node, which has a depth of 0
-        fn = 0 + self.evaluate_heuristic_1(board.board) # First f(n) has g = 0
+        fn = 0 + self.heuristic(board.board) # First f(n) has g = 0
         root_node = Node.Node(None, board, 0, fn)
 
         # Put the root node into the priority queue
@@ -40,7 +51,7 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
             g = 0 # For BFS
             if name == "astar":
                 g = current_node[1].get_depth()
-            h = self.evaluate_heuristic_1(current_node[1].get_current_board().board)
+            h = self.heuristic(current_node[1].get_current_board().board)
 
             self.output_parser.create_search_files(iteration, name, f, g, h, current_node[1].get_current_board().transform_2d_to_1d())
             length = length + 1 # Increment the nodes searched
@@ -67,10 +78,9 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
             possible_moves = current_node[1].get_current_board().generate_possible_moves(int(size))
             for i in range(len(possible_moves)):
                 children_to_append = Board.Board(int(size), current_node[1].get_current_board().prioritize_board(possible_moves)[i])
-                totalEstimate = self.evaluate_heuristic_1(children_to_append.board) # For BFS
+                totalEstimate = self.heuristic(children_to_append.board) # For BFS
                 if name == "astar":
-                    totalEstimate = current_node[1].get_depth() + 1 + self.generate_heuristic_based_on_future_ones(children_to_append.board) # heuristic for A*
-                    # totalEstimate = current_node[1].get_depth() + 1 + self.evaluate_heuristic_1(children_to_append.board) # heuristic for A*
+                    totalEstimate = current_node[1].get_depth() + 1 + self.heuristic(children_to_append.board) # heuristic for A*
                 node_to_add = Node.Node(current_node[1], children_to_append, current_node[1].get_depth() + 1, totalEstimate)
                 current_node[1].add_children(node_to_add)
 
@@ -85,12 +95,13 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
         self.output_parser.create_solution_files(iteration, name, None, False)
         return False  # Open list is empty, and can't find a node at the goal state
 
-    def evaluate_heuristic_1(self, board):
+    def generate_heuristic_based_on_counting(self, board):
         # Counting number of 1's and taking the smallest f priority for now as a heuristic for test
         h = np.count_nonzero(board)
         return h
 
     def generate_heuristic_based_on_future_ones(self, board):
+        # Counts the number of 1's on the next move 1 step ahead and adds everything together
         total_number_of_ones = 0
         size = len(board)
         for i in range(size):

@@ -164,7 +164,7 @@ class Astar:  # Using BFS in this class too as it is derived of A* with g = 0
         current_node = Node.Node(goal_node.get_parent(), goal_node.get_current_board(), goal_node.get_depth(),
                                  goal_node.get_estimate())
         back_track_list.append(current_node)  # We add the goal state
-        while current_node.get_parent() is not None:
+        while current_node.get_parent() != None:
             back_track_list.insert(0,
                                    current_node.get_parent())  # We add each parents at the the beginning by back tracking
             current_node = current_node.get_parent()  # We create the next one to iterate

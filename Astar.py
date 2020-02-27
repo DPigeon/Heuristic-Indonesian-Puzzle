@@ -17,8 +17,8 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
     heuristic = None # The heuristic function
     # 0 --> counting heuristic
     # 1 --> future ahead 1 heuristic
-    # 2 --> ???
-    heuristicNum = 1 # Change this number to try different heuristics
+    # 2 --> heuristic #1 + #2
+    heuristicNum = 2 # Change this number to try different heuristics
 
     def __init__(self):
         self.open_list = [] # Nodes currently getting evaluated, as a priority queue
@@ -28,6 +28,8 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
             self.heuristic = self.generate_heuristic_based_on_counting
         if self.heuristicNum == 1:
             self.heuristic = self.generate_heuristic_based_on_future_ones
+        if self.heuristicNum == 2:
+            self.heuristic = self.generate_heuristic_based_on_counting_and_future_ones
 
 
     def Astar(self, iteration, board, size, max_length, name, stringName):
@@ -107,8 +109,13 @@ class Astar: # Using BFS in this class too as it is derived of A* with g = 0
         for i in range(size):
             for j in range(size):
                 total_number_of_ones = total_number_of_ones + self.change_surroundings(board, i, j, size)
-
         return total_number_of_ones
+    
+    def generate_heuristic_based_on_counting_and_future_ones(self, board):
+        # Adds both heuristic 1 and 2
+        h1 = self.generate_heuristic_based_on_counting(board)
+        h2 = self.generate_heuristic_based_on_future_ones(board)
+        return h1 + h2
 
     def change_surroundings(self, board, i, j, n):
         new_board = board.copy()  # Copy the list

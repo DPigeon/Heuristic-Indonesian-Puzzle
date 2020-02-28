@@ -19,7 +19,7 @@ class Astar:  # Using BFS in this class too as it is derived of A* with g = 0
     # 0 --> counting heuristic
     # 1 --> future ahead 1 heuristic
     # 2 --> heuristic #1 + #2
-    heuristicNum = 2  # Change this number to try different heuristics
+    heuristicNum = 0  # Change this number to try different heuristics
 
     def __init__(self):
         self.open_list = []  # Nodes currently getting evaluated, as a priority queue
@@ -61,7 +61,7 @@ class Astar:  # Using BFS in this class too as it is derived of A* with g = 0
 
             # We look if the node is the state goal
             if current_node[1].get_current_board().check_goal_state():
-                print("Found a solution path for Puzzle #" + str(iteration) + " with " + stringName + "!")
+                print("Found a solution path for Puzzle #" + str(iteration) + " with " + stringName + " and heuristic #" + str(self.heuristicNum + 1) + ".")
                 self.closed_list.append(current_node[1])
                 self.output_parser.create_solution_files(iteration, name, self.back_track(current_node[1]), True)
                 self.timeEnd = time.time()
@@ -117,7 +117,7 @@ class Astar:  # Using BFS in this class too as it is derived of A* with g = 0
                         self.closed_list.remove(node_to_replace)  # Removes le
                         heapq.heappush(self.open_list, (child.get_estimate(), child))
 
-        print("Could not find a solution path for Puzzle #" + str(iteration) + " with " + stringName + ".\n")
+        print("Could not find a solution path for Puzzle #" + str(iteration) + " with " + stringName + " and heuristic #" + str(self.heuristicNum + 1) + ".")
         self.output_parser.create_solution_files(iteration, name, None, False)
         return False  # Open list is empty, and can't find a node at the goal state
 

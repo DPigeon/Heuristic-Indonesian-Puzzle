@@ -57,4 +57,4 @@ class OutputParser:
         with open(file, "r") as f:
             for line in f:
                 count += 1
-        print("Total number of moves is:", count - 1)
+        print("Total number of moves is:", count - 1, "\n")

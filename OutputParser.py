@@ -48,5 +48,13 @@ class OutputParser:
             parameters = "no solution"
 
         file = open("output/" + str(iteration) + "_" + algorithm + "_" + "solution.txt", "w")
+
         file.write(parameters)
         file.close()
+
+        count = 0
+        file = "output/" + str(iteration) + "_" + algorithm + "_" + "solution.txt"
+        with open(file, "r") as f:
+            for line in f:
+                count += 1
+        print("Total number of moves is:", count - 1)

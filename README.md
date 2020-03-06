@@ -1,6 +1,8 @@
 # Heuristic Indonesian Dot Puzzle
 https://github.com/DPigeon/Heuristic-Indonesian-Puzzle
 
+<img width="800" src="https://user-images.githubusercontent.com/37888675/75617802-22e2c200-5b32-11ea-9788-0b181f866cb6.gif">
+
 First, install Miniconda with Python 3.7 at
 
 ```
@@ -88,4 +90,11 @@ Example:
 ```
 0 1010010111001010
 B1 0010100101001010
+```
+
+# Tests
+
+You can run the unit tests (one for each algorithms) with
+```
+python -m unittest
 ```
